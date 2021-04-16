@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@*
+   WorkWithDbUser  - класс пользователя   
+*@
+@using Microsoft.AspNetCore.Identity
+@using WorkWithDb.Areas.Identity.Data
+@inject SignInManager<WorkWithDbUser> SignInManager
+@inject UserManager<WorkWithDbUser> UserManager
+@if (SignInManager.IsSignedIn(User))
+{
+    WorkWithDbUser user = await UserManager.GetUserAsync(User);
+    if (user.Status)
+    {
+        await SignInManager.SignOutAsync();
+    }
+}

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WorkWithDbUser>
+@{ ViewBag.Title = "Список пользователей"; }
+
+@using Microsoft.AspNetCore.Identity
+@using WorkWithDb.Areas.Identity.Data
+
+@inject SignInManager<WorkWithDbUser> SignInManager
+@inject UserManager<WorkWithDbUser> UserManager
+
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var users = UserManager.Users;
+    WorkWithDbUser userKey = UserManager.Users.First();
+
+    <form>
+        <button asp-controller="Home" asp-action="Block" class="btn btn-primary"><i style="color: white" class="bi bi-lock-fill"></i> Block</button>
+        <button asp-controller="Home" asp-action="Unblock" class="btn btn-primary"><i style="color: white" class="bi bi-unlock-fill"></i> Unblock</button>
+        <button asp-controller="Home" asp-action="Delete" class="btn btn-danger"> <i style="color: white" class="bi bi-trash2-fill"></i> Delete</button>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="checkAll"></th>
+                    <th scope="col">@Html.DisplayNameFor(m => userKey.Id)</th>
+                    <th scope="col">@Html.DisplayNameFor(m => userKey.UserName)</th>
+                    <th scope="col">@Html.DisplayNameFor(m => userKey.Email)</th>
+                    <th scope="col">@Html.DisplayNameFor(m => userKey.DateReg)</th>
+                    <th scope="col">@Html.DisplayNameFor(m => userKey.DateSignUp)</th>
+                    <th scope="col">@Html.DisplayNameFor(m => userKey.Status)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td scope="col"><input type="checkbox" name="State" value="@user.Id" id="state"></td>
+                        <td scope="col">@Html.DisplayFor(m => user.Id)</td>
+                        <td scope="col">@Html.DisplayFor(m => user.UserName)</td>
+                        <td scope="col">@Html.DisplayFor(m => user.Email)</td>
+                        <td scope="col">@Html.DisplayFor(m => user.DateReg)</td>
+                        <td scope="col">@Html.DisplayFor(m => user.DateSignUp)</td>
+                        <th scope="col">@Html.DisplayFor(m => user.Status)</th>
+                    </tr>                
+                }
+            </tbody>
+        </table>
+    </form> 
+}
+else
+{
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+}
